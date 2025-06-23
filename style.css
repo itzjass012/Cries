@@ -1,1 +1,53 @@
 
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f6ff;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+h1 {
+  background: #004aad;
+  color: white;
+  padding: 15px;
+  margin: 0;
+}
+
+#app {
+  padding: 20px;
+}
+
+input, button {
+  margin: 8px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background: #004aad;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #003080;
+}
+
+.button-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.button-grid button {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 18px;
+}
