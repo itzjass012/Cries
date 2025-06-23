@@ -2,101 +2,69 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cries - Cricket Scoring App</title>
+  <title>Cries - Cricket Scoring</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f8f8ff;
-    }
-    #splash {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #4b0082;
-    }
-    #splash img {
-      width: 160px;
-      animation: fadeIn 1s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    #home-screen {
-      display: none;
-      padding: 20px;
-      text-align: center;
-    }
-    .logo-title {
-      font-size: 2rem;
-      font-weight: bold;
-      color: #4b0082;
-      margin-bottom: 10px;
-    }
-    .match-result {
-      margin: 30px 0;
-      background: #fff;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    .bottom-buttons {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background-color: #fff;
-      border-top: 1px solid #ccc;
-      display: flex;
-      justify-content: space-around;
-      padding: 12px 0;
-    }
-    .bottom-buttons button {
-      background-color: #4b0082;
-      color: #fff;
-      border: none;
-      border-radius: 25px;
-      padding: 10px 20px;
-      font-size: 16px;
-    }
-  </style>
 </head>
 <body>
   <!-- Splash Screen -->
-  <div id="splash">
-    <img src="cries-logo.png" alt="Cries App Logo" />
-  </div>  <!-- Main App UI -->  <div id="home-screen">
-    <div class="logo-title">Cries</div><div class="match-result">
-  <h3>Last Match Summary</h3>
-  <p><strong>Team A:</strong> 135/8 (20.0)</p>
-  <p><strong>Team B:</strong> 136/6 (18.4)</p>
-  <p><strong>Winner:</strong> Team B won by 4 wickets</p>
-  <button onclick="alert('Share Coming Soon')">🔗 Share Scorecard</button>
-</div>
-
-<div class="bottom-buttons">
-  <button onclick="startNewMatch()">Start New Match</button>
-  <button onclick="viewMatchHistory()">Last Played Matches</button>
-</div>
-
-  </div>  <script>
-    // Show splash for 3 seconds
-    window.onload = function () {
-      setTimeout(() => {
-        document.getElementById('splash').style.display = 'none';
-        document.getElementById('home-screen').style.display = 'block';
-      }, 3000);
-    };
-
-    function startNewMatch() {
-      window.location.href = "scoring.html"; // You can replace this with your full scoring app
-    }
-
-    function viewMatchHistory() {
-      alert("Match history page coming soon!");
-    }
-  </script></body>
-    </html>
+  <div id="splash-screen">
+    <img src="cries-logo.png" alt="Cries Logo" class="logo" />
+  </div>  <!-- Home Screen -->  <div id="home-screen" class="hidden">
+    <h1>Welcome to Cries</h1>
+    <div id="match-results">No matches played yet.</div>
+    <div class="button-container">
+      <button onclick="showTeamSetup()">Start New Match</button>
+      <button onclick="showMatchHistory()">Last Played Matches</button>
+    </div>
+  </div>  <!-- Team Setup Screen -->  <div id="setup-screen" class="hidden">
+    <h2>Match Setup</h2>
+    <form id="setup-form">
+      <label>Team A Name: <input type="text" id="teamA" required></label>
+      <label>Team B Name: <input type="text" id="teamB" required></label>
+      <label>Striker Name: <input type="text" id="striker" required></label>
+      <label>Non-Striker Name: <input type="text" id="nonStriker" required></label>
+      <label>Bowler Name: <input type="text" id="bowler" required></label>
+      <label>Overs: <input type="number" id="totalOvers" min="1" max="50" required></label>
+      <label>Toss Won By:
+        <select id="tossWinner">
+          <option value="A">Team A</option>
+          <option value="B">Team B</option>
+        </select>
+      </label>
+      <label>Choose to:
+        <select id="tossDecision">
+          <option value="bat">Bat</option>
+          <option value="bowl">Bowl</option>
+        </select>
+      </label>
+      <button type="submit">Start Match</button>
+    </form>
+  </div>  <!-- Scoring Screen -->  <div id="scoring-screen" class="hidden">
+    <h2 id="currentInnings">1st Innings</h2>
+    <div class="scoreboard">
+      <div id="score">Score: 0/0</div>
+      <div id="overs">Overs: 0.0</div>
+      <div id="runRate">Run Rate: 0.00</div>
+    </div>
+    <div id="batsmen-info"></div>
+    <div class="controls">
+      <button onclick="addRun(0)">0</button>
+      <button onclick="addRun(1)">1</button>
+      <button onclick="addRun(2)">2</button>
+      <button onclick="addRun(3)">3</button>
+      <button onclick="addRun(4)">4</button>
+      <button onclick="addRun(6)">6</button>
+      <button onclick="addWide()">Wide</button>
+      <button onclick="addNoBall()">No Ball</button>
+      <button onclick="addWicket()">Wicket</button>
+      <button onclick="undoLastAction()">Undo</button>
+    </div>
+  </div>  <!-- Match Summary (Result + Player of the Match) -->  <div id="match-summary" class="hidden">
+    <h2>Match Summary</h2>
+    <div id="result"></div>
+    <div id="scorecard"></div>
+    <div id="playerOfMatch"></div>
+    <button onclick="downloadPDF()">Download PDF</button>
+    <button onclick="goHome()">Back to Home</button>
+  </div>  <script src="script.js"></script></body>
+</html>
