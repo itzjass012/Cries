@@ -1,1 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>STM Cricket Scorer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <h1>STM Cricket Scorer</h1>
 
+    <div id="setup-screen">
+      <input type="text" id="teamA" placeholder="Team A Name" />
+      <input type="text" id="teamB" placeholder="Team B Name" />
+      <input type="number" id="oversLimit" placeholder="Number of Overs" min="1" />
+      <input type="text" id="striker" placeholder="Striker Name" />
+      <input type="text" id="nonStriker" placeholder="Non-Striker Name" />
+      <input type="text" id="bowler" placeholder="Bowler Name" />
+      <button onclick="startMatch()">Start Match</button>
+    </div>
+
+    <div id="scoring-screen" style="display: none;">
+      <h2 id="matchInfo"></h2>
+      <p>Striker: <span id="strikerName"></span> | Non-Striker: <span id="nonStrikerName"></span></p>
+      <p>Bowler: <span id="bowlerName"></span></p>
+      <p>Score: <span id="score">0</span>/<span id="wickets">0</span></p>
+      <p>Overs: <span id="overs">0.0</span> / <span id="maxOvers"></span></p>
+      <p>Run Rate: <span id="runRate">0.00</span></p>
+
+      <div class="button-grid">
+        <button onclick="addRun(1)">1</button>
+        <button onclick="addRun(2)">2</button>
+        <button onclick="addRun(3)">3</button>
+        <button onclick="addRun(4)">4</button>
+        <button onclick="addRun(6)">6</button>
+        <button onclick="addRun(0, 'wide')">Wide</button>
+        <button onclick="addRun(0, 'noball')">No Ball</button>
+        <button onclick="wicket()">Wicket</button>
+        <button onclick="undo()">Undo</button>
+        <button onclick="endInnings()">End Innings</button>
+      </div>
+
+      <div id="matchResult" style="margin-top: 20px;"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+        </html
