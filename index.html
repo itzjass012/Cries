@@ -1,50 +1,102 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>STM Cricket Scorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cries - Cricket Scoring App</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f8f8ff;
+    }
+    #splash {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #4b0082;
+    }
+    #splash img {
+      width: 160px;
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    #home-screen {
+      display: none;
+      padding: 20px;
+      text-align: center;
+    }
+    .logo-title {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #4b0082;
+      margin-bottom: 10px;
+    }
+    .match-result {
+      margin: 30px 0;
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .bottom-buttons {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #fff;
+      border-top: 1px solid #ccc;
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 0;
+    }
+    .bottom-buttons button {
+      background-color: #4b0082;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
 </head>
 <body>
-  <div id="app">
-    <h1>STM Cricket Scorer</h1>
+  <!-- Splash Screen -->
+  <div id="splash">
+    <img src="cries-logo.png" alt="Cries App Logo" />
+  </div>  <!-- Main App UI -->  <div id="home-screen">
+    <div class="logo-title">Cries</div><div class="match-result">
+  <h3>Last Match Summary</h3>
+  <p><strong>Team A:</strong> 135/8 (20.0)</p>
+  <p><strong>Team B:</strong> 136/6 (18.4)</p>
+  <p><strong>Winner:</strong> Team B won by 4 wickets</p>
+  <button onclick="alert('Share Coming Soon')">🔗 Share Scorecard</button>
+</div>
 
-    <div id="setup-screen">
-      <input type="text" id="teamA" placeholder="Team A Name" />
-      <input type="text" id="teamB" placeholder="Team B Name" />
-      <input type="number" id="oversLimit" placeholder="Number of Overs" min="1" />
-      <input type="text" id="striker" placeholder="Striker Name" />
-      <input type="text" id="nonStriker" placeholder="Non-Striker Name" />
-      <input type="text" id="bowler" placeholder="Bowler Name" />
-      <button onclick="startMatch()">Start Match</button>
-    </div>
+<div class="bottom-buttons">
+  <button onclick="startNewMatch()">Start New Match</button>
+  <button onclick="viewMatchHistory()">Last Played Matches</button>
+</div>
 
-    <div id="scoring-screen" style="display: none;">
-      <h2 id="matchInfo"></h2>
-      <p>Striker: <span id="strikerName"></span> | Non-Striker: <span id="nonStrikerName"></span></p>
-      <p>Bowler: <span id="bowlerName"></span></p>
-      <p>Score: <span id="score">0</span>/<span id="wickets">0</span></p>
-      <p>Overs: <span id="overs">0.0</span> / <span id="maxOvers"></span></p>
-      <p>Run Rate: <span id="runRate">0.00</span></p>
+  </div>  <script>
+    // Show splash for 3 seconds
+    window.onload = function () {
+      setTimeout(() => {
+        document.getElementById('splash').style.display = 'none';
+        document.getElementById('home-screen').style.display = 'block';
+      }, 3000);
+    };
 
-      <div class="button-grid">
-        <button onclick="addRun(1)">1</button>
-        <button onclick="addRun(2)">2</button>
-        <button onclick="addRun(3)">3</button>
-        <button onclick="addRun(4)">4</button>
-        <button onclick="addRun(6)">6</button>
-        <button onclick="addRun(0, 'wide')">Wide</button>
-        <button onclick="addRun(0, 'noball')">No Ball</button>
-        <button onclick="wicket()">Wicket</button>
-        <button onclick="undo()">Undo</button>
-        <button onclick="endInnings()">End Innings</button>
-      </div>
+    function startNewMatch() {
+      window.location.href = "scoring.html"; // You can replace this with your full scoring app
+    }
 
-      <div id="matchResult" style="margin-top: 20px;"></div>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
-</body>
-        </html
+    function viewMatchHistory() {
+      alert("Match history page coming soon!");
+    }
+  </script></body>
+    </html>
