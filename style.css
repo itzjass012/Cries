@@ -1,54 +1,131 @@
-
 body {
-  font-family: Arial, sans-serif;
-  background: #f2f6ff;
+  font-family: 'Segoe UI', sans-serif;
   margin: 0;
   padding: 0;
-  text-align: center;
+  background: #f5f7fa;
+  color: #222;
 }
 
-h1 {
-  background: #004aad;
+#splash-screen {
+  background-color: #6a1b9a;
   color: white;
-  padding: 15px;
-  margin: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
 }
 
-#app {
+.hidden {
+  display: none;
+}
+
+.screen {
   padding: 20px;
+  display: none;
 }
 
-input, button {
-  margin: 8px;
+.screen.active {
+  display: block;
+}
+
+h2, h3, h4 {
+  color: #4a148c;
+}
+
+input, select {
+  width: 100%;
   padding: 10px;
-  font-size: 16px;
-  border-radius: 10px;
+  margin: 8px 0;
+  border-radius: 8px;
   border: 1px solid #ccc;
 }
 
 button {
-  background: #004aad;
+  background: #6a1b9a;
   color: white;
   border: none;
+  padding: 12px 20px;
+  margin: 10px 5px;
+  border-radius: 40px;
+  font-weight: bold;
+  font-size: 16px;
   cursor: pointer;
+  transition: background 0.3s;
 }
 
 button:hover {
-  background: #003080;
+  background: #4a148c;
 }
 
-.button-grid {
+#scorecard, #summary, #match-history {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  padding: 15px;
+  margin: 10px 0;
+}
+
+.stat-box {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0;
+  padding: 10px;
+  background: #ede7f6;
+  border-radius: 8px;
+}
+
+.match-buttons {
   display: flex;
   flex-wrap: wrap;
+  gap: 8px;
   justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
 }
 
-.button-grid button {
-  border-radius: 50%;
+.match-buttons button {
   width: 60px;
   height: 60px;
   font-size: 18px;
+  border-radius: 50%;
+}
+
+#player-list-popup {
+  background: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+#player-list-popup .popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+}
+
+#match-history.popup {
+  background: rgba(0,0,0,0.6);
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+#match-history .popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 90%;
   }
-  
