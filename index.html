@@ -1,54 +1,62 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>Cries - Cricket Scoring App</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <!-- Splash Screen -->
-  <div id="splash-screen" class="screen">...</div>
-<div id="home-screen" class="screen hidden">...</div>
-<div id="setup-screen" class="screen hidden">...</div>
-<div id="scoring-screen" class="screen hidden">...</div>
-<div id="match-summary" class="screen hidden">...</div>
-<div id="match-history" class="screen hidden">...</div>
-  <div id="splash-screen">
-    <img src="logo.png" alt="Cries Logo" class="logo" />
-  </div>  <!-- Home Screen -->  <div id="home-screen" class="screen hidden">
-    <h2>Welcome to Cries</h2>
-    <div id="recent-matches"></div>
-    <button onclick="startMatchSetup()">Start New Match</button>
-    <button onclick="showMatchHistory()">Last Played Matches</button>
-  </div>  <!-- Match Setup -->  <div id="match-setup" class="screen hidden">
-    <h3>Match Setup</h3>
-    <input id="teamA" placeholder="Team A Name" />
-    <input id="teamB" placeholder="Team B Name" />
-    <input id="overs" type="number" placeholder="Number of Overs" />
+  <div id="splash-screen" class="screen">
+    <img src="cries-logo.png" alt="Cries Logo" class="logo" />
+  </div>
+
+  <!-- Home Screen -->
+  <div id="home-screen" class="screen hidden">
+    <h1>Welcome to Cries</h1>
+    <button onclick="startSetup()">Start New Match</button>
+    <button onclick="viewMatchHistory()">Last Played Matches</button>
+  </div>
+
+  <!-- Match Setup -->
+  <div id="setup-screen" class="screen hidden">
+    <h2>Setup Match</h2>
+    <input id="teamA" placeholder="Team A" />
+    <input id="teamB" placeholder="Team B" />
+    <input id="overs" type="number" placeholder="Overs" />
     <input id="striker" placeholder="Striker Name" />
     <input id="nonStriker" placeholder="Non-Striker Name" />
     <input id="bowler" placeholder="Bowler Name" />
-    <button onclick="doToss()">Toss</button>
-    <div id="toss-result"></div>
     <button onclick="startMatch()">Start Match</button>
-  </div>  <!-- Scoring Screen -->  <div id="scoring-screen" class="screen hidden">
-    <h3>Scoring</h3>
-    <div id="scorecard"></div>
-    <div id="match-buttons" class="match-buttons"></div>
-    <button onclick="undoLastAction()">Undo</button>
-    <button onclick="showSummary()">Show Summary</button>
-    <button onclick="showPartnership()">Current Partnership</button>
-    <button onclick="showMatchHistory()">Match History</button>
-  </div>  <!-- Summary Screen -->  <div id="summary-screen" class="screen hidden">
-    <h3>Match Summary</h3>
-    <div id="summary"></div>
-    <button onclick="generatePDF()">Download PDF</button>
-    <button onclick="goToHome()">Home</button>
-  </div>  <!-- Match History Popup -->  <div id="match-history" class="popup hidden">
-    <div class="popup-content">
-      <h4>Match History</h4>
-      <div id="match-history-content"></div>
-      <button onclick="closeMatchHistory()">Close</button>
+  </div>
+
+  <!-- Scoring Screen -->
+  <div id="scoring-screen" class="screen hidden">
+    <h2 id="matchTeams"></h2>
+    <p id="matchOvers"></p>
+    <p><strong>Striker:</strong> <span id="strikerName"></span> - <span id="strikerRuns"></span> runs (<span id="strikerBalls"></span> balls)</p>
+    <p><strong>Non-Striker:</strong> <span id="nonStrikerName"></span> - <span id="nonStrikerRuns"></span> runs (<span id="nonStrikerBalls"></span> balls)</p>
+    <p><strong>Bowler:</strong> <span id="bowlerName"></span> - <span id="bowlerStats"></span></p>
+    <p>Total: <span id="totalRuns"></span>/<span id="totalWickets"></span> in <span id="currentOver"></span></p>
+    <p>Run Rate: <span id="runRate"></span></p>
+    <div class="buttons">
+      <button onclick="scoreRun(0)">0</button>
+      <button onclick="scoreRun(1)">1</button>
+      <button onclick="scoreRun(2)">2</button>
+      <button onclick="scoreRun(3)">3</button>
+      <button onclick="scoreRun(4)">4</button>
+      <button onclick="scoreRun(6)">6</button>
+      <button onclick="wicketFall()">Wicket</button>
+      <button onclick="endMatch()">End Match</button>
     </div>
-  </div>  <script src="script.js" defer></script></body>
-  </html>
+  </div>
+
+  <!-- Match Summary -->
+  <div id="match-summary" class="screen hidden"></div>
+
+  <!-- Match History -->
+  <div id="match-history" class="screen hidden"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
