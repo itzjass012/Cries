@@ -1,52 +1,48 @@
-// script.js
-
-// DOM elements const homeScreen = document.getElementById("home-screen"); const setupScreen = document.getElementById("setup-screen"); const scoringScreen = document.getElementById("scoring-screen"); const summaryScreen = document.getElementById("match-summary"); const historyPopup = document.getElementById("match-history");
-
-const teamAInput = document.getElementById("teamA"); const teamBInput = document.getElementById("teamB"); const oversInput = document.getElementById("overs"); const strikerInput = document.getElementById("striker"); const nonStrikerInput = document.getElementById("nonStriker"); const bowlerInput = document.getElementById("bowler");
-
-const matchTeams = document.getElementById("matchTeams"); const matchOvers = document.getElementById("matchOvers"); const strikerName = document.getElementById("strikerName"); const nonStrikerName = document.getElementById("nonStrikerName"); const bowlerName = document.getElementById("bowlerName");
-
-const strikerRuns = document.getElementById("strikerRuns"); const strikerBalls = document.getElementById("strikerBalls"); const bowlerBalls = document.getElementById("bowlerBalls"); const bowlerRuns = document.getElementById("bowlerRuns");
-
-const totalRuns = document.getElementById("totalRuns"); const wickets = document.getElementById("wickets"); const totalBalls = document.getElementById("totalBalls"); const oversDisplay = document.getElementById("oversDisplay"); const runRate = document.getElementById("runRate");
-
-const partnershipRuns = document.getElementById("partnershipRuns"); const partnershipBalls = document.getElementById("partnershipBalls");
-
-const summaryRuns = document.getElementById("summaryRuns"); const summaryOvers = document.getElementById("summaryOvers"); const playerOfMatch = document.getElementById("playerOfMatch"); const historyContent = document.getElementById("historyContent");
-
-let matchData = { teamA: "", teamB: "", overs: 0, striker: { name: "", runs: 0, balls: 0 }, nonStriker: { name: "", runs: 0, balls: 0 }, bowler: { name: "", runs: 0, balls: 0 }, totalRuns: 0, totalBalls: 0, wickets: 0, partnership: { runs: 0, balls: 0 }, result: "", innings: 1 };
-
-function showSetupScreen() { homeScreen.classList.add("hidden"); setupScreen.classList.remove("hidden"); }
-
-function startMatch() { matchData.teamA = teamAInput.value; matchData.teamB = teamBInput.value; matchData.overs = parseInt(oversInput.value); matchData.striker.name = strikerInput.value; matchData.nonStriker.name = nonStrikerInput.value; matchData.bowler.name = bowlerInput.value;
-
-matchTeams.textContent = ${matchData.teamA} vs ${matchData.teamB}; matchOvers.textContent = Overs: ${matchData.overs};
-
-strikerName.textContent = matchData.striker.name; nonStrikerName.textContent = matchData.nonStriker.name; bowlerName.textContent = matchData.bowler.name;
-
-setupScreen.classList.add("hidden"); scoringScreen.classList.remove("hidden"); }
-
-function addRun(runs) { matchData.totalRuns += runs; matchData.totalBalls++; matchData.striker.runs += runs; matchData.striker.balls++; matchData.bowler.runs += runs; matchData.bowler.balls++; matchData.partnership.runs += runs; matchData.partnership.balls++; updateScoreDisplay(); }
-
-function addWicket() { matchData.wickets++; matchData.totalBalls++; matchData.striker.balls++; matchData.bowler.balls++; matchData.partnership.balls++; updateScoreDisplay(); }
-
-function updateScoreDisplay() { strikerRuns.textContent = matchData.striker.runs; strikerBalls.textContent = matchData.striker.balls; bowlerBalls.textContent = matchData.bowler.balls; bowlerRuns.textContent = matchData.bowler.runs; totalRuns.textContent = matchData.totalRuns; wickets.textContent = matchData.wickets; totalBalls.textContent = matchData.totalBalls; oversDisplay.textContent = (matchData.totalBalls / 6).toFixed(1); runRate.textContent = ((matchData.totalRuns * 6) / matchData.totalBalls).toFixed(2); partnershipRuns.textContent = matchData.partnership.runs; partnershipBalls.textContent = matchData.partnership.balls; }
-
-function endMatch() { scoringScreen.classList.add("hidden"); summaryScreen.classList.remove("hidden"); summaryRuns.textContent = matchData.totalRuns; summaryOvers.textContent = (matchData.totalBalls / 6).toFixed(1); matchData.result = ${matchData.teamA} scored ${matchData.totalRuns} in ${summaryOvers.textContent} overs.; playerOfMatch.textContent = matchData.striker.runs > 30 ? matchData.striker.name : matchData.bowler.name; }
-
-function showLastMatch() { homeScreen.classList.add("hidden"); historyPopup.classList.remove("hidden"); historyContent.innerHTML = <h4>Last Match Summary</h4> <p><strong>${matchData.result}</strong></p> <p>Striker: ${matchData.striker.name} - ${matchData.striker.runs} (${matchData.striker.balls})</p> <p>Bowler: ${matchData.bowler.name} - ${matchData.bowler.balls} balls, ${matchData.bowler.runs} runs</p> <p>Player of the Match: <strong>${playerOfMatch.textContent}</strong></p>; }
-
-function closeHistory() { historyPopup.classList.add("hidden"); homeScreen.classList.remove("hidden"); }
-
-function goHome() { summaryScreen.classList.add("hidden"); homeScreen.classList.remove("hidden"); }
-
-function undo() { // Future: implement undo logic stack alert("Undo not yet implemented."); }
-
-function exportPDF() { alert("PDF Export feature coming soon."); }
-
-function showPlayerList() { document.getElementById("player-list-popup").classList.remove("hidden"); document.getElementById("teamAPlayers").innerHTML = <h4>${matchData.teamA}</h4><ul><li>${matchData.striker.name}</li><li>${matchData.nonStriker.name}</li></ul>; document.getElementById("teamBPlayers").innerHTML = <h4>${matchData.teamB}</h4><ul><li>${matchData.bowler.name}</li></ul>; }
-
-function closePlayerList() { document.getElementById("player-list-popup").classList.add("hidden"); }
-
-window.onload = () => { setTimeout(() => { document.getElementById("splash-screen").classList.add("hidden"); homeScreen.classList.remove("hidden"); }, 2000); };
-
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cries - Cricket Scoring App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Splash Screen -->
+  <div id="splash-screen">
+    <img src="logo.png" alt="Cries Logo" class="logo" />
+  </div>  <!-- Home Screen -->  <div id="home-screen" class="screen hidden">
+    <h2>Welcome to Cries</h2>
+    <div id="recent-matches"></div>
+    <button onclick="startMatchSetup()">Start New Match</button>
+    <button onclick="showMatchHistory()">Last Played Matches</button>
+  </div>  <!-- Match Setup -->  <div id="match-setup" class="screen hidden">
+    <h3>Match Setup</h3>
+    <input id="teamA" placeholder="Team A Name" />
+    <input id="teamB" placeholder="Team B Name" />
+    <input id="overs" type="number" placeholder="Number of Overs" />
+    <input id="striker" placeholder="Striker Name" />
+    <input id="nonStriker" placeholder="Non-Striker Name" />
+    <input id="bowler" placeholder="Bowler Name" />
+    <button onclick="doToss()">Toss</button>
+    <div id="toss-result"></div>
+    <button onclick="startMatch()">Start Match</button>
+  </div>  <!-- Scoring Screen -->  <div id="scoring-screen" class="screen hidden">
+    <h3>Scoring</h3>
+    <div id="scorecard"></div>
+    <div id="match-buttons" class="match-buttons"></div>
+    <button onclick="undoLastAction()">Undo</button>
+    <button onclick="showSummary()">Show Summary</button>
+    <button onclick="showPartnership()">Current Partnership</button>
+    <button onclick="showMatchHistory()">Match History</button>
+  </div>  <!-- Summary Screen -->  <div id="summary-screen" class="screen hidden">
+    <h3>Match Summary</h3>
+    <div id="summary"></div>
+    <button onclick="generatePDF()">Download PDF</button>
+    <button onclick="goToHome()">Home</button>
+  </div>  <!-- Match History Popup -->  <div id="match-history" class="popup hidden">
+    <div class="popup-content">
+      <h4>Match History</h4>
+      <div id="match-history-content"></div>
+      <button onclick="closeMatchHistory()">Close</button>
+    </div>
+  </div>  <script src="script.js" defer></script></body>
+</html>
