@@ -1,136 +1,52 @@
-<!DOCTYPE html><html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cries - Cricket Scoring App</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(to bottom, #f7f7f7, #eaeaea);
-      color: #333;
-    }
-    .screen {
-      display: none;
-      padding: 20px;
-      animation: fadeIn 0.5s ease-in;
-    }
-    .centered {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #6e44ff;
-    }
-    .hidden {
-      display: none !important;
-    }
-    .button {
-      padding: 14px 24px;
-      margin: 10px 5px;
-      border-radius: 40px;
-      background: #6e44ff;
-      color: #fff;
-      font-size: 16px;
-      font-weight: 600;
-      border: none;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .button:hover {
-      background-color: #5a33cc;
-    }
-    input[type="text"], input[type="number"] {
-      width: 90%;
-      padding: 12px;
-      margin-bottom: 12px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      font-size: 16px;
-    }
-    h2 {
-      color: #6e44ff;
-      text-align: center;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align: center;
-    }
-    .run-buttons button {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      font-size: 18px;
-      margin: 5px;
-      border: none;
-      background: #6e44ff;
-      color: white;
-      font-weight: bold;
-    }
-    .run-buttons button:hover {
-      background: #5a33cc;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-  </style>
-</head>
-<body><!-- Splash Screen --><div id="splash-screen" class="centered">
-  <img src="logo.png" alt="Cries Logo" style="width: 180px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);" />
-</div><!-- Home Screen --><div id="home-screen" class="screen">
-  <h2>Welcome to <strong>Cries</strong></h2>
-  <div style="text-align:center;">
-    <button class="button" onclick="showSetupScreen()">Start New Match</button>
-    <button class="button" onclick="showLastMatch()">Last Played Match</button>
-  </div>
-</div><!-- Match Setup Screen --><div id="setup-screen" class="screen">
-  <h2>Match Setup</h2>
-  <div style="text-align:center">
-    <input type="text" id="teamA" placeholder="Team A Name"><br>
-    <input type="text" id="teamB" placeholder="Team B Name"><br>
-    <input type="number" id="overs" placeholder="Total Overs"><br>
-    <input type="text" id="striker" placeholder="Striker Name"><br>
-    <input type="text" id="nonStriker" placeholder="Non-Striker Name"><br>
-    <input type="text" id="bowler" placeholder="Bowler Name"><br>
-    <button class="button" onclick="startMatch()">Start Match</button>
-  </div>
-</div><!-- Scoring Screen --><div id="scoring-screen" class="screen">
-  <h2>Scoring Panel</h2>
-  <p><strong>Striker:</strong> <span id="displayStriker"></span> (<span id="strikerRuns">0</span> runs / <span id="strikerBalls">0</span> balls)</p>
-  <p><strong>Non-Striker:</strong> <span id="displayNonStriker"></span></p>
-  <p><strong>Bowler:</strong> <span id="displayBowler"></span> (<span id="bowlerBalls">0</span> balls / <span id="bowlerRuns">0</span> runs)</p>
-  <p><strong>Total Runs:</strong> <span id="runs">0</span></p>
-  <p><strong>Total Balls:</strong> <span id="balls">0</span> (<span id="oversDisplay">0</span> overs)</p>
-  <p><strong>Run Rate:</strong> <span id="runRate">0.00</span></p>
-  <div class="run-buttons" style="text-align:center;">
-    <button onclick="addRun(1)">1</button>
-    <button onclick="addRun(2)">2</button>
-    <button onclick="addRun(3)">3</button>
-    <button onclick="addRun(4)">4</button>
-    <button onclick="addRun(6)">6</button>
-    <button onclick="addWicket()">W</button>
-    <button onclick="undo()">⟲</button>
-  </div>
-</div><!-- Match Summary Screen --><div id="match-summary" class="screen">
-  <h2>Match Summary</h2>
-  <p>Total Runs: <span id="summaryRuns">0</span></p>
-  <p>Total Overs: <span id="summaryOvers">0</span></p>
-  <p><strong>Player of the Match:</strong> <span id="playerOfMatch"></span></p>
-  <div style="text-align:center">
-    <button class="button" onclick="goHome()">Back to Home</button>
-  </div>
-</div><script>
-// JS remains same — logic already updated
-</script></body>
-      </html>
+// script.js
+
+// DOM elements const homeScreen = document.getElementById("home-screen"); const setupScreen = document.getElementById("setup-screen"); const scoringScreen = document.getElementById("scoring-screen"); const summaryScreen = document.getElementById("match-summary"); const historyPopup = document.getElementById("match-history");
+
+const teamAInput = document.getElementById("teamA"); const teamBInput = document.getElementById("teamB"); const oversInput = document.getElementById("overs"); const strikerInput = document.getElementById("striker"); const nonStrikerInput = document.getElementById("nonStriker"); const bowlerInput = document.getElementById("bowler");
+
+const matchTeams = document.getElementById("matchTeams"); const matchOvers = document.getElementById("matchOvers"); const strikerName = document.getElementById("strikerName"); const nonStrikerName = document.getElementById("nonStrikerName"); const bowlerName = document.getElementById("bowlerName");
+
+const strikerRuns = document.getElementById("strikerRuns"); const strikerBalls = document.getElementById("strikerBalls"); const bowlerBalls = document.getElementById("bowlerBalls"); const bowlerRuns = document.getElementById("bowlerRuns");
+
+const totalRuns = document.getElementById("totalRuns"); const wickets = document.getElementById("wickets"); const totalBalls = document.getElementById("totalBalls"); const oversDisplay = document.getElementById("oversDisplay"); const runRate = document.getElementById("runRate");
+
+const partnershipRuns = document.getElementById("partnershipRuns"); const partnershipBalls = document.getElementById("partnershipBalls");
+
+const summaryRuns = document.getElementById("summaryRuns"); const summaryOvers = document.getElementById("summaryOvers"); const playerOfMatch = document.getElementById("playerOfMatch"); const historyContent = document.getElementById("historyContent");
+
+let matchData = { teamA: "", teamB: "", overs: 0, striker: { name: "", runs: 0, balls: 0 }, nonStriker: { name: "", runs: 0, balls: 0 }, bowler: { name: "", runs: 0, balls: 0 }, totalRuns: 0, totalBalls: 0, wickets: 0, partnership: { runs: 0, balls: 0 }, result: "", innings: 1 };
+
+function showSetupScreen() { homeScreen.classList.add("hidden"); setupScreen.classList.remove("hidden"); }
+
+function startMatch() { matchData.teamA = teamAInput.value; matchData.teamB = teamBInput.value; matchData.overs = parseInt(oversInput.value); matchData.striker.name = strikerInput.value; matchData.nonStriker.name = nonStrikerInput.value; matchData.bowler.name = bowlerInput.value;
+
+matchTeams.textContent = ${matchData.teamA} vs ${matchData.teamB}; matchOvers.textContent = Overs: ${matchData.overs};
+
+strikerName.textContent = matchData.striker.name; nonStrikerName.textContent = matchData.nonStriker.name; bowlerName.textContent = matchData.bowler.name;
+
+setupScreen.classList.add("hidden"); scoringScreen.classList.remove("hidden"); }
+
+function addRun(runs) { matchData.totalRuns += runs; matchData.totalBalls++; matchData.striker.runs += runs; matchData.striker.balls++; matchData.bowler.runs += runs; matchData.bowler.balls++; matchData.partnership.runs += runs; matchData.partnership.balls++; updateScoreDisplay(); }
+
+function addWicket() { matchData.wickets++; matchData.totalBalls++; matchData.striker.balls++; matchData.bowler.balls++; matchData.partnership.balls++; updateScoreDisplay(); }
+
+function updateScoreDisplay() { strikerRuns.textContent = matchData.striker.runs; strikerBalls.textContent = matchData.striker.balls; bowlerBalls.textContent = matchData.bowler.balls; bowlerRuns.textContent = matchData.bowler.runs; totalRuns.textContent = matchData.totalRuns; wickets.textContent = matchData.wickets; totalBalls.textContent = matchData.totalBalls; oversDisplay.textContent = (matchData.totalBalls / 6).toFixed(1); runRate.textContent = ((matchData.totalRuns * 6) / matchData.totalBalls).toFixed(2); partnershipRuns.textContent = matchData.partnership.runs; partnershipBalls.textContent = matchData.partnership.balls; }
+
+function endMatch() { scoringScreen.classList.add("hidden"); summaryScreen.classList.remove("hidden"); summaryRuns.textContent = matchData.totalRuns; summaryOvers.textContent = (matchData.totalBalls / 6).toFixed(1); matchData.result = ${matchData.teamA} scored ${matchData.totalRuns} in ${summaryOvers.textContent} overs.; playerOfMatch.textContent = matchData.striker.runs > 30 ? matchData.striker.name : matchData.bowler.name; }
+
+function showLastMatch() { homeScreen.classList.add("hidden"); historyPopup.classList.remove("hidden"); historyContent.innerHTML = <h4>Last Match Summary</h4> <p><strong>${matchData.result}</strong></p> <p>Striker: ${matchData.striker.name} - ${matchData.striker.runs} (${matchData.striker.balls})</p> <p>Bowler: ${matchData.bowler.name} - ${matchData.bowler.balls} balls, ${matchData.bowler.runs} runs</p> <p>Player of the Match: <strong>${playerOfMatch.textContent}</strong></p>; }
+
+function closeHistory() { historyPopup.classList.add("hidden"); homeScreen.classList.remove("hidden"); }
+
+function goHome() { summaryScreen.classList.add("hidden"); homeScreen.classList.remove("hidden"); }
+
+function undo() { // Future: implement undo logic stack alert("Undo not yet implemented."); }
+
+function exportPDF() { alert("PDF Export feature coming soon."); }
+
+function showPlayerList() { document.getElementById("player-list-popup").classList.remove("hidden"); document.getElementById("teamAPlayers").innerHTML = <h4>${matchData.teamA}</h4><ul><li>${matchData.striker.name}</li><li>${matchData.nonStriker.name}</li></ul>; document.getElementById("teamBPlayers").innerHTML = <h4>${matchData.teamB}</h4><ul><li>${matchData.bowler.name}</li></ul>; }
+
+function closePlayerList() { document.getElementById("player-list-popup").classList.add("hidden"); }
+
+window.onload = () => { setTimeout(() => { document.getElementById("splash-screen").classList.add("hidden"); homeScreen.classList.remove("hidden"); }, 2000); };
+
