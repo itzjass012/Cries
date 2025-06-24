@@ -37,5 +37,9 @@ function getPlayerOfMatch() { const strikerPoints = matchData.striker.runs * 2; 
 if (strikerPoints >= nonStrikerPoints && strikerPoints >= bowlerPoints) return matchData.striker; if (nonStrikerPoints >= strikerPoints && nonStrikerPoints >= bowlerPoints) return matchData.nonStriker; return matchData.bowler; }
 
 function viewMatchHistory() { const history = matchData.matches.map( (m, i) => <p><strong>Match ${i + 1}</strong>: ${m.teams}<br>Score: ${m.score}<br>Player of Match: ${m.potm}</p> ).join("<hr>"); document.getElementById("match-history").innerHTML = <h2>Match History</h2>${history}; showScreen("match-history"); }
-
+// Hide splash screen after 3 seconds
+setTimeout(() => {
+  showScreen("home-screen");
+  document.getElementById("splash-screen").classList.add("hidden");
+}, 3000);
   
