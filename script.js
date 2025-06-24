@@ -1,53 +1,41 @@
-// script.js
+// JS Cricket App Logic let matchData = { teamA: "", teamB: "", striker: {}, nonStriker: {}, bowler: {}, totalRuns: 0, wickets: 0, overs: 0, currentBalls: 0, maxOvers: 0, history: [], matches: [], };
 
-// DOM elements const homeScreen = document.getElementById("home-screen"); const setupScreen = document.getElementById("setup-screen"); const scoringScreen = document.getElementById("scoring-screen"); const summaryScreen = document.getElementById("match-summary"); const historyPopup = document.getElementById("match-history");
+function startSetup() { showScreen("setup-screen"); }
 
-const teamAInput = document.getElementById("teamA"); const teamBInput = document.getElementById("teamB"); const oversInput = document.getElementById("overs"); const strikerInput = document.getElementById("striker"); const nonStrikerInput = document.getElementById("nonStriker"); const bowlerInput = document.getElementById("bowler");
+function startMatch() { matchData.teamA = document.getElementById("teamA").value; matchData.teamB = document.getElementById("teamB").value; matchData.striker = { name: document.getElementById("striker").value, runs: 0, balls: 0 }; matchData.nonStriker = { name: document.getElementById("nonStriker").value, runs: 0, balls: 0 }; matchData.bowler = { name: document.getElementById("bowler").value, runs: 0, wickets: 0, balls: 0 }; matchData.maxOvers = parseInt(document.getElementById("overs").value);
 
-const matchTeams = document.getElementById("matchTeams"); const matchOvers = document.getElementById("matchOvers"); const strikerName = document.getElementById("strikerName"); const nonStrikerName = document.getElementById("nonStrikerName"); const bowlerName = document.getElementById("bowlerName");
+updateScoringUI(); showScreen("scoring-screen"); }
 
-const strikerRuns = document.getElementById("strikerRuns"); const strikerBalls = document.getElementById("strikerBalls"); const bowlerBalls = document.getElementById("bowlerBalls"); const bowlerRuns = document.getElementById("bowlerRuns");
+function showScreen(id) { document.querySelectorAll(".screen").forEach((s) => s.classList.add("hidden")); document.getElementById(id).classList.remove("hidden"); }
 
-const totalRuns = document.getElementById("totalRuns"); const wickets = document.getElementById("wickets"); const totalBalls = document.getElementById("totalBalls"); const oversDisplay = document.getElementById("oversDisplay"); const runRate = document.getElementById("runRate");
+function updateScoringUI() { document.getElementById("matchTeams").textContent = ${matchData.teamA} vs ${matchData.teamB}; document.getElementById("matchOvers").textContent = Overs: ${matchData.overs}.${matchData.currentBalls}; document.getElementById("strikerName").textContent = matchData.striker.name; document.getElementById("strikerRuns").textContent = matchData.striker.runs; document.getElementById("strikerBalls").textContent = matchData.striker.balls; document.getElementById("nonStrikerName").textContent = matchData.nonStriker.name; document.getElementById("nonStrikerRuns").textContent = matchData.nonStriker.runs; document.getElementById("nonStrikerBalls").textContent = matchData.nonStriker.balls; document.getElementById("bowlerName").textContent = matchData.bowler.name; document.getElementById("bowlerStats").textContent = Runs: ${matchData.bowler.runs}, Wickets: ${matchData.bowler.wickets}; document.getElementById("totalRuns").textContent = matchData.totalRuns; document.getElementById("totalWickets").textContent = matchData.wickets; document.getElementById("currentOver").textContent = ${matchData.overs}.${matchData.currentBalls}; document.getElementById("runRate").textContent = getRunRate(); }
 
-const partnershipRuns = document.getElementById("partnershipRuns"); const partnershipBalls = document.getElementById("partnershipBalls");
+function scoreRun(run) { matchData.totalRuns += run; matchData.striker.runs += run; matchData.striker.balls++; matchData.bowler.runs += run; matchData.bowler.balls++; matchData.currentBalls++;
 
-const summaryRuns = document.getElementById("summaryRuns"); const summaryOvers = document.getElementById("summaryOvers"); const playerOfMatch = document.getElementById("playerOfMatch"); const historyContent = document.getElementById("historyContent");
+if (matchData.currentBalls >= 6) { matchData.overs++; matchData.currentBalls = 0; rotateStrike(); changeBowler(); } updateScoringUI(); }
 
-let matchData = { teamA: "", teamB: "", overs: 0, striker: { name: "", runs: 0, balls: 0 }, nonStriker: { name: "", runs: 0, balls: 0 }, bowler: { name: "", runs: 0, balls: 0 }, totalRuns: 0, totalBalls: 0, wickets: 0, partnership: { runs: 0, balls: 0 }, result: "", innings: 1 };
+function rotateStrike() { let temp = matchData.striker; matchData.striker = matchData.nonStriker; matchData.nonStriker = temp; }
 
-function showSetupScreen() { homeScreen.classList.add("hidden"); setupScreen.classList.remove("hidden"); }
+function changeBowler() { const newName = prompt("Enter new bowler name:"); if (newName) { matchData.bowler = { name: newName, runs: 0, wickets: 0, balls: 0 }; } }
 
-function startMatch() { matchData.teamA = teamAInput.value; matchData.teamB = teamBInput.value; matchData.overs = parseInt(oversInput.value); matchData.striker.name = strikerInput.value; matchData.nonStriker.name = nonStrikerInput.value; matchData.bowler.name = bowlerInput.value;
+function wicketFall() { matchData.wickets++; matchData.bowler.wickets++; matchData.striker.balls++; matchData.bowler.balls++; matchData.currentBalls++;
 
-matchTeams.textContent = ${matchData.teamA} vs ${matchData.teamB}; matchOvers.textContent = Overs: ${matchData.overs};
+if (matchData.currentBalls >= 6) { matchData.overs++; matchData.currentBalls = 0; rotateStrike(); changeBowler(); }
 
-strikerName.textContent = matchData.striker.name; nonStrikerName.textContent = matchData.nonStriker.name; bowlerName.textContent = matchData.bowler.name;
+const newBatsman = prompt("Enter new batsman name:"); if (newBatsman) { matchData.striker = { name: newBatsman, runs: 0, balls: 0 }; } updateScoringUI(); }
 
-setupScreen.classList.add("hidden"); scoringScreen.classList.remove("hidden"); }
+function getRunRate() { const balls = matchData.overs * 6 + matchData.currentBalls; return balls ? (matchData.totalRuns / (balls / 6)).toFixed(2) : "0.00"; }
 
-function addRun(runs) { matchData.totalRuns += runs; matchData.totalBalls++; matchData.striker.runs += runs; matchData.striker.balls++; matchData.bowler.runs += runs; matchData.bowler.balls++; matchData.partnership.runs += runs; matchData.partnership.balls++; updateScoreDisplay(); }
+function endMatch() { const potm = getPlayerOfMatch(); const summary = Final Score: ${matchData.totalRuns}/${matchData.wickets}\nPlayer of the Match: ${potm.name};
 
-function addWicket() { matchData.wickets++; matchData.totalBalls++; matchData.striker.balls++; matchData.bowler.balls++; matchData.partnership.balls++; updateScoreDisplay(); }
+matchData.matches.push({ teams: ${matchData.teamA} vs ${matchData.teamB}, score: ${matchData.totalRuns}/${matchData.wickets}, potm: potm.name, });
 
-function updateScoreDisplay() { strikerRuns.textContent = matchData.striker.runs; strikerBalls.textContent = matchData.striker.balls; bowlerBalls.textContent = matchData.bowler.balls; bowlerRuns.textContent = matchData.bowler.runs; totalRuns.textContent = matchData.totalRuns; wickets.textContent = matchData.wickets; totalBalls.textContent = matchData.totalBalls; oversDisplay.textContent = (matchData.totalBalls / 6).toFixed(1); runRate.textContent = ((matchData.totalRuns * 6) / matchData.totalBalls).toFixed(2); partnershipRuns.textContent = matchData.partnership.runs; partnershipBalls.textContent = matchData.partnership.balls; }
+document.getElementById("match-summary").innerHTML = <h2>Match Summary</h2><p>${summary}</p>; showScreen("match-summary"); }
 
-function endMatch() { scoringScreen.classList.add("hidden"); summaryScreen.classList.remove("hidden"); summaryRuns.textContent = matchData.totalRuns; summaryOvers.textContent = (matchData.totalBalls / 6).toFixed(1); matchData.result = ${matchData.teamA} scored ${matchData.totalRuns} in ${summaryOvers.textContent} overs.; playerOfMatch.textContent = matchData.striker.runs > 30 ? matchData.striker.name : matchData.bowler.name; }
+function getPlayerOfMatch() { const strikerPoints = matchData.striker.runs * 2; const nonStrikerPoints = matchData.nonStriker.runs * 2; const bowlerPoints = matchData.bowler.wickets * 20 - matchData.bowler.runs;
 
-function showLastMatch() { homeScreen.classList.add("hidden"); historyPopup.classList.remove("hidden"); historyContent.innerHTML = <h4>Last Match Summary</h4> <p><strong>${matchData.result}</strong></p> <p>Striker: ${matchData.striker.name} - ${matchData.striker.runs} (${matchData.striker.balls})</p> <p>Bowler: ${matchData.bowler.name} - ${matchData.bowler.balls} balls, ${matchData.bowler.runs} runs</p> <p>Player of the Match: <strong>${playerOfMatch.textContent}</strong></p>; }
+if (strikerPoints >= nonStrikerPoints && strikerPoints >= bowlerPoints) return matchData.striker; if (nonStrikerPoints >= strikerPoints && nonStrikerPoints >= bowlerPoints) return matchData.nonStriker; return matchData.bowler; }
 
-function closeHistory() { historyPopup.classList.add("hidden"); homeScreen.classList.remove("hidden"); }
-
-function goHome() { summaryScreen.classList.add("hidden"); homeScreen.classList.remove("hidden"); }
-
-function undo() { // Future: implement undo logic stack alert("Undo not yet implemented."); }
-
-function exportPDF() { alert("PDF Export feature coming soon."); }
-
-function showPlayerList() { document.getElementById("player-list-popup").classList.remove("hidden"); document.getElementById("teamAPlayers").innerHTML = <h4>${matchData.teamA}</h4><ul><li>${matchData.striker.name}</li><li>${matchData.nonStriker.name}</li></ul>; document.getElementById("teamBPlayers").innerHTML = <h4>${matchData.teamB}</h4><ul><li>${matchData.bowler.name}</li></ul>; }
-
-function closePlayerList() { document.getElementById("player-list-popup").classList.add("hidden"); }
-
-window.onload = () => { setTimeout(() => { document.getElementById("splash-screen").classList.add("hidden"); homeScreen.classList.remove("hidden"); }, 2000); };
+function viewMatchHistory() { const history = matchData.matches.map( (m, i) => <p><strong>Match ${i + 1}</strong>: ${m.teams}<br>Score: ${m.score}<br>Player of Match: ${m.potm}</p> ).join("<hr>"); document.getElementById("match-history").innerHTML = <h2>Match History</h2>${history}; showScreen("match-history"); }
 
   
