@@ -1,34 +1,59 @@
-/* Global Styles */ body { font-family: 'Segoe UI', sans-serif; background: #f5f5f5; margin: 0; padding: 0; text-align: center; }
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
 
-.screen { display: none; padding: 1.5rem; }
+.screen {
+  display: none;
+  padding: 20px;
+}
 
-.screen:not(.hidden) { display: block; }
+.screen:not(.hidden) {
+  display: block;
+}
 
-h1, h2, h3 { color: #4b0082; }
+.hidden {
+  display: none;
+}
 
-button { margin: 0.5rem; padding: 0.8rem 1.5rem; font-size: 1rem; border: none; border-radius: 50px; background: #6200ea; color: white; cursor: pointer; transition: 0.3s ease; }
+.logo {
+  width: 200px;
+  margin-top: 20%;
+}
 
-button:hover { background: #3700b3; }
+button {
+  margin: 10px;
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: purple;
+  color: white;
+  border: none;
+  border-radius: 8px;
+}
 
-input { display: block; margin: 0.6rem auto; padding: 0.7rem; font-size: 1rem; width: 80%; border-radius: 10px; border: 1px solid #ccc; }
+input {
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  width: 80%;
+  max-width: 300px;
+  font-size: 16px;
+}
 
-.logo { width: 120px; margin-top: 4rem; animation: fade 2s ease-in-out; }
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 
-@keyframes fade { 0% { opacity: 0; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
-
-/* Scorecard Styles */ .scorecard { background: white; padding: 1rem; border-radius: 20px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); margin-bottom: 1rem; }
-
-.scorecard .batter, .scorecard .bowler, .scorecard .total { margin: 1rem 0; font-size: 1rem; }
-
-.score-buttons button { margin: 0.3rem; padding: 1rem; width: 60px; height: 60px; font-size: 1.2rem; border-radius: 50%; background: #9c27b0; }
-
-.score-buttons button:hover { background: #6a1b9a; }
-
-/* Match Summary and History */ #match-summary, #match-history { background: #fff; padding: 1rem; border-radius: 10px; margin: 1rem auto; width: 90%; box-shadow: 0 0 12px rgba(0,0,0,0.1); text-align: left; }
-
-.hidden { display: none !important; }
-
-@media (max-width: 600px) { input, button { width: 90%; }
-
-.score-buttons button { width: 50px; height: 50px; } }
-
+.buttons button {
+  margin: 5px;
+  width: 60px;
+  height: 60px;
+  font-size: 18px;
+  border-radius: 50%;
+  background-color: #6a1b9a;
+}
